@@ -49,7 +49,7 @@ class Todo extends Component {
                 </div>
                 <ListGroup>
                     {this.state.todos.map((item, index) => {
-                        return <ListGroupItem key={index} tag="a" href="#" action>{index + 1}. {item.title}</ListGroupItem>
+                        return <ListGroupItem key={index} tag="a" className="text-start" href="#" action>{index + 1}. {item.title}</ListGroupItem>
                     })}
                 </ListGroup>
             </div>
