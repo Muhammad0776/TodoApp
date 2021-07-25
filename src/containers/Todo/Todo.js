@@ -1,60 +1,102 @@
-import "./Todo.css"
+import { AiOutlinePlus } from 'react-icons/ai';
+import { BsTrash } from 'react-icons/bs';
 import React, { Component } from 'react'
-import { Button, Input } from 'reactstrap';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { Button, Input, } from 'reactstrap';
 import { ListGroup, ListGroupItem } from 'reactstrap';
+import './Todo.css';
 
-class Todo extends Component {
+
+export default class Todo extends Component {
     constructor(props) {
         super(props);
-
-        this.state = { todos: props.todos, typing: "task" }
+        this.state = {
+            todos: this.props.todos,
+            typing: '',
+            deleted: []
+        }
     }
 
-    changed = (event) => {
-        console.log(event.target.value);
-
-        this.setState((state) => {
-            return { typing: event.target.value }
-        })
+    setValues = (e) => {
+        this.setState({ typing: e.target.value })
     }
 
-    add = () => {
-        console.log(this.state.typing);
-
-        this.setState((state) => {
-            let array = [...state.todos];
-
-            array.push({ title: this.state.typing })
-
-            return { todos: array }
-        })
+    setTodo = () => {
+        if (this.state.typing !== "") {
+            let data = [...this.state.todos]
+            data.push({ title: this.state.typing })
+            this.setState({ todos: data })
+            this.setState({ typing: "" })
+        } else {
+            alert('Type your task !')
+        }
     }
+
+    // deleted task
+    deleteTodo = (index) => {
+        let data = [...this.state.todos]
+        data.splice(index, 1)
+        this.setState({ todos: data })
+    }
+
+    // ClearAll
+    // clearAll = () => {
+    //     console.log(clearAll);
+
+    //     this.state.todos.innerHTML = '';
+    //     this.state.todos.count = 0;
+
+    //     console.log(this.state.todos);
+    // }
+
 
     render() {
         return (
-            <div className="rounded overflow-hidden shadow p-3 bg-white">
-                <h1>Todo App</h1>
-                <div className="d-flex align-items-center mb-2">
-                    <Input type="text"
-                        placeholder="new task"
-                        className="me-2"
-                        value={this.state.typing}
-                        onChange={this.changed} />
+            <div className="rounded overflow-hidden shadow p-3 bg-primary">
+                <h2>Todo App</h2>
 
-                    <Button color="primary" onClick={this.add} >
-                        <FontAwesomeIcon icon={faPlus} />
+                <div className="d-flex align-items-center mb-3">
+                    <Input
+                        type="text"
+                        placeholder="New Task"
+                        value={this.state.typing}
+                        className="me-2"
+                        onChange={this.setValues}
+                    />
+                    <Button
+                        color="dark"
+                        onClick={this.setTodo}
+                    >
+                        <AiOutlinePlus color="white" fontWeight="600" fontSize="1.5rem" />
                     </Button>
                 </div>
+
                 <ListGroup>
-                    {this.state.todos.map((item, index) => {
-                        return <ListGroupItem key={index} tag="a" className="text-start" href="#" action>{index + 1}. {item.title}</ListGroupItem>
-                    })}
+                    {
+                        this.state.todos.map((item, index) => {
+                            return <ListGroupItem tag="a" href="#" className="w-100 d-flex justify-content-between" key={index} action>{index + 1}.  {item.title}
+                                <Button
+                                    color="danger"
+                                    className="float-right"
+                                    onClick={this.deleteTodo.bind(this, index)}
+                                >
+                                    <BsTrash color="white" fontWeight="600" fontSize="1.5rem" />
+                                </Button>
+                            </ListGroupItem>
+                        })
+                    }
                 </ListGroup>
+
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <p class="m-0">
+                        You have <span id="count">4</span> pending lists
+                    </p>
+                    <button class="btn btn-danger" onclick="clearAll()">
+                        Clear All
+                    </button>
+                </div>
+
+
             </div>
         )
     }
 }
-
-export default Todo;
