@@ -1,5 +1,6 @@
 import { AiOutlinePlus } from 'react-icons/ai';
 import { BsTrash } from 'react-icons/bs';
+import { AiOutlineEdit } from "react-icons/ai";
 import React, { Component } from 'react'
 import { Button, Input, } from 'reactstrap';
 import { ListGroup, ListGroupItem } from 'reactstrap';
@@ -74,13 +75,22 @@ export default class Todo extends Component {
                     {
                         this.state.todos.map((item, index) => {
                             return <ListGroupItem tag="a" href="#" className="w-100 d-flex justify-content-between" key={index} action>{index + 1}.  {item.title}
-                                <Button
-                                    color="danger"
-                                    className="float-right"
-                                    onClick={this.deleteTodo.bind(this, index)}
-                                >
-                                    <BsTrash color="white" fontWeight="600" fontSize="1.5rem" />
-                                </Button>
+                                <div>
+                                    <Button
+                                        color="success"
+                                        className="float-right me-3"
+                                        onClick={this.state}
+                                    >
+                                        <AiOutlineEdit color="white" font-fontWeight="600" fontSize="1.5rem" />
+                                    </Button>
+                                    <Button
+                                        color="danger"
+                                        className="float-right"
+                                        onClick={this.deleteTodo.bind(this, index)}
+                                    >
+                                        <BsTrash color="white" fontWeight="600" fontSize="1.5rem" />
+                                    </Button>
+                                </div>
                             </ListGroupItem>
                         })
                     }
@@ -88,7 +98,7 @@ export default class Todo extends Component {
 
                 <div class="d-flex justify-content-between align-items-center mt-3">
                     <p class="m-0">
-                        You have <span id="count">4</span> pending lists
+                        You have <span id="count">3</span> pending lists
                     </p>
                     <button class="btn btn-danger" onclick="clearAll()">
                         Clear All
